@@ -15,17 +15,17 @@ class Hotel_Guest(Base):
     requests = Column("request_id", Integer)
     payment_id = Column("payment_id", Integer)
     loyalty = Column("loyalty_level", String) # ar griztantis svecias
-    room_no = Column("room_no", Integer)
+    room_no = Column("room_no", Integer, ForeignKey("hotel_room.room_no"))
     booking_id = Column("booking_id", Integer)
 
 
 class Hotel_Room(Base):
     __tablename__ = "hotel_room"
     room_no = Column(Integer, primary_key = True)
-    room_type = Column("room_type_id", String)
-    guest_id = Column("guest_id", Integer)
-    nightly_rate = Column("nightly_rate", Float)
-    booking_id = Column("booking_id", Integer)
+    room_type = Column("room_type_id", String, ForeignKey("room_type.type_of_room"))
+    guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
+    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
+    booking_id = Column("booking_id", Integer, ForeignKey("booking.id"))
 
 
 class Room_Type(Base):
@@ -38,31 +38,33 @@ class Room_Type(Base):
 class Booking(Base):
     __tablename__ = "booking"
     id = Column(Integer, primary_key = True)
-    guest_id = Column("guest_Id", Integer)
-    payment_id = Column("payment_id", Integer)
-    room_no = Column("room_no", Integer)
-    check_in = Column("check_in", datetime.date)
-    check_out = Column("check_out", datetime.date)
+    guest_id = Column("guest_Id", Integer, ForeignKey("main_guest.id"))
+    payment_id = Column("payment_id", Integer, ForeignKey("payment.id"))
+    room_no = Column("room_no", Integer, ForeignKey("hotel_room.room_no"))
+    check_in = Column("check_in", String)
+    check_out = Column("check_out", String)
     number_of_guests = Column("num_of_guests", Integer)
-    nightly_rate = Column("nightly_rate", Float)
+    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
     nights = Column("nights", Integer)
     total = Column("total_price", Float)
 
 
 class Payment(Base):
     __tablename__ = "payment"
-    guest_id = Column("guest_id", Integer)
+    id = Column(Integer, primary_key = True)
+    guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
     payment_method = Column("payment_method", String)
-    booking_id = Column("booking_id", Integer)
-    nightly_rate = Column("nightly_rate", Float)
+    booking_id = Column("booking_id", Integer, ForeignKey("booking.id"))
+    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
     total = Column("total", Float)
 
 
 class Transaction(Base):
     __tablename__ = "transaction"
-    guest_id = Column("guest_id", Integer)
-    payment_method = Column("payment_method", String)
-    total = Column("total", Float)
+    id = Column(Integer, primary_key = True)
+    guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
+    payment_method = Column("payment_method", String, ForeignKey("payment.payment_method"))
+    total = Column("total", Float, ForeignKey("payment.total"))
     acc_no = Column("acc_no", String)
     payment_status = Column("payment_status", String)
 
