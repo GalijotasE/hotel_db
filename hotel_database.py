@@ -19,16 +19,31 @@ class Hotel_Guest(Base):
     check_in = Column("check_in", String)
     check_out = Column("check_out", String)
     room_id = Column("room_id", Integer, ForeignKey("hotel_room.id"))
+    room = relationship("Hotel_Room", back_populates="room")
+
+
+
+class Room_Type(Base):
+    __tablename__ = "room_type"
+    id = Column(Integer, primary_key = True)
+    type_of_room = ("type_of_room", String)
+    room_description = ("room_description", String)
+    price_per_night = ("price_per_night", Float)
+    hotel_room = relationship("Hotel_Room")
 
 
 
 class Hotel_Room(Base):
     __tablename__ = "hotel_room"
     id = Column(Integer, primary_key = True)
+    room_type = Column("room_type_id", String, ForeignKey("room_type.id"))
     guest_id = Column("guest_id", Integer, ForeignKey("hotel_guest.id"))
     room_price = Column("room_price", Float)
     check_in = Column("check_in", String, ForeignKey("hotel_guest.check_in"))
     check_out = Column("check_out", String, ForeignKey("hotel_guest.check_out"))
+    guest = relationship("Hotel_Guest", back_populates="guest")
+    type = relationship("Room_Type", back_populates="type")
+
 
 
 
@@ -42,10 +57,6 @@ class Employees(Base):
     email = Column("email", String)
     position = Column("position", String)
 
-
-
-class Room_Service(Base):
-    __tablename__ = "room_service"
 
 
 
