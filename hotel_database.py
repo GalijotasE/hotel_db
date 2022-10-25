@@ -99,7 +99,7 @@ class Payment(Base):
     payment_method = Column("payment_method", String)
     booking_id = Column("booking_id", Integer, ForeignKey("booking.id"))
     nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
-    total = Column("total", Float)
+    total = Column("total", Float, ForeignKey("booking.total"))
 
     def __init__(self, guest_id, payment_method, booking_id, nightly_rate, total):
         self.guest_id = guest_id
