@@ -165,6 +165,62 @@ def edit_all_booking():
         print(f"New booking for {guest} has been added to the database.")
 
 
+def edit_all_payment():
+    try:
+        print("Choose guest id: ")
+        show_all_hotel_guest()
+        guest = input("Guest id: ")
+        payment = input("Payment method: ")
+        print("Choose booking id:")
+        show_all_booking()
+        booking = input("Booking id: ")
+        print("Choose nightly rate: ")
+        show_all_room_type()
+        rate = input("Nightly rate: ")
+        print("Choose total")
+        show_all_booking()
+        total = input("Total: ")
+    except ValueError:
+        print("ERROR!!!")
+    else:
+        new_payment = Payment(
+            guest_id= guest,
+            payment_method= payment,
+            booking_id= booking,
+            nightly_rate= rate,
+            total= total
+        )
+        session.add(new_payment)
+        session.commit()
+        print(f"Payment from {guest} has been added to the database.")
+
+
+def edit_all_transaction():
+    try:
+        print("Choose guest id")
+        show_all_hotel_guest()
+        guest = input("Guest id: ")
+        payment = input("Payment method: ")
+        print("Choose total price")
+        show_all_booking()
+        total = input("Total: ")
+        acc = input("Account number: ")
+        status = input("Payment status: ")
+    except ValueError:
+        print("ERROR!!!")
+    else:
+        new_transaction = Transaction(
+            guest_id= guest,
+            payment_method= payment,
+            total= total,
+            acc_no= acc,
+            payment_status= status
+        )
+        session.add(new_transaction)
+        session.commit()
+        print(f"Transaction of {guest} payment has been added to the database")
+
+
 ########## Infinite menu cycle
 
 while True:
@@ -194,9 +250,9 @@ while True:
         elif choice == "t":
             edit_all_room_type()
         elif choice == "b":
-            pass
+            edit_all_booking()
         elif choice == "p":
-            pass
+            edit_all_payment()
         elif choice == "t":
             pass
         elif choice == "q":
