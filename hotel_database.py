@@ -13,10 +13,10 @@ class Hotel_Guest(Base):
     guest_l_name = Column("last_name", String)
     reason_of_stay = Column("reasons_of_stay", String)
     requests = Column("request_id", Integer)
-    payment_id = Column("payment_id", Integer)
+    payment_id = Column("payment_id", Integer, ForeignKey("payment.id"))
     loyalty = Column("loyalty_level", String) # ar griztantis svecias
     room_no = Column("room_no", Integer, ForeignKey("hotel_room.room_no"))
-    booking_id = Column("booking_id", Integer)
+    booking_id = Column("booking_id", Integer, ForeignKey("booking.id"))
 
     def __init__(self, guest_f_name, guest_l_name, reason_of_stay, requests, payment_id, loyalty, room_no, booking_id):
         self.guest_f_name = guest_f_name
