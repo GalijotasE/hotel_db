@@ -53,15 +53,7 @@ def edit_all_hotel_guest():
        reason = input("reason of stay: ")
        request = input("requests: ")
        print("Please choose payment id")
-       show_all_payment()
-       payment = input("payment id: ")
        loyalty_g = input("loyalty: ")
-       print("Please choose room number")
-       show_all_hotel_room()
-       room_number = input("room number: ")
-       print("Please choose booking")
-       show_all_booking()
-       booking = input("booking id: ")
     except ValueError:
         print("ERROR!!!")
     else:
@@ -70,10 +62,7 @@ def edit_all_hotel_guest():
             guest_l_name= l_name,
             reason_of_stay= reason,
             requests= request,
-            payment_id= payment,
             loyalty= loyalty_g,
-            room_no= room_number,
-            booking_id= booking
         )
         session.add(new_guest)
         session.commit()
@@ -92,9 +81,7 @@ def edit_all_hotel_room():
         print("Choose Nightly Rate")
         show_all_room_type()
         night_rate = input("Nightly rate: ")
-        print("Choose Booking Id")
-        show_all_booking()
-        booking = input("Booking Id: ")
+
     except ValueError:
         print("ERROR!!!")
     else:
@@ -102,7 +89,6 @@ def edit_all_hotel_room():
             room_type= type_of_room,
             guest_id= g_id,
             nightly_rate= night_rate,
-            booking_id= booking
         )
         session.add(new_room)
         session.commit()
@@ -221,7 +207,36 @@ def edit_all_transaction():
         print(f"Transaction of {guest} payment has been added to the database")
 
 
-########## Infinite menu cycle
+########## DELETE DATA FROM DATABASE
+
+# def guest_data_choice():
+#     show_all_hotel_guest()
+#     try:
+#         guest_id = int(input("Guest id: "))
+#     except ValueError:
+#         print("ERROR!!! Input is supposed to be integer!!!")
+#         return None
+#     else:
+#         if guest_id:
+#             guest = session.query(Hotel_Guest).get(id)
+#             if guest:
+#                 return guest
+#             else:
+#                 print(f"ERROR!!! Guest with an id {id} does not exist!")
+
+
+# def delete_hotel_guest():
+#     deleting = guest_data_choice()
+#     if deleting:
+#         session.delete(deleting)
+#         session.commit()
+#         print(f"Guest {deleting} has been deleted.")
+#     else:
+#         print(f"ERROR!!! Guest {deleting} does not exist.")
+
+
+
+########## INFINITE MENU CYCLE
 
 while True:
     print("---HOTEL DATABASE EDITOR---")
@@ -254,7 +269,7 @@ while True:
         elif choice == "p":
             edit_all_payment()
         elif choice == "t":
-            pass
+            edit_all_transaction()
         elif choice == "q":
             break
         else:
@@ -287,3 +302,36 @@ while True:
             break
         else:
             print("ERROR!!! Please Choose Only From Given Inputs!!!")
+
+    #### Deleting data cycle
+    elif action == "d":
+        print("---Deleting Data From The Database---")
+        print("g - Delete Hotel Guest")
+        print("r - Delete Hotel Room")
+        print("t - Delete Hotel Room Type")
+        print("b - Delete Booking")
+        print("p - Delete Payment")
+        print("t - Delete Transaction")
+        print("q - Quit")
+        choice = input("Please Choose: ")
+        if choice == "g":
+            #delete_hotel_guest()
+            pass
+        elif choice == "r":
+            pass
+        elif choice == "t":
+            pass
+        elif choice == "b":
+            pass
+        elif choice == "p":
+            pass
+        elif choice == "t":
+            pass
+        elif choice == "q":
+            break
+
+    #### Quit
+    elif action == "q":
+        break
+    else:
+        print("ERROR!!! Please Choose Only From Given Inputs!!!")
