@@ -54,3 +54,13 @@ def show_all_transaction():
 #        payment_id = input("choose payment id")
        
 
+while True:
+    print("---HOTEL DATABASE EDITOR---")
+    print("Please choose one of the following:")
+    print("a - Add New Data To The Database")
+    print("v - View Data In The Database")
+    print("d - Delete Data In The Database")
+    print("q - Quit")
+    action = input("please choose: ")
+    if action == "a":
+        print("---Adding Data To The Database---")
