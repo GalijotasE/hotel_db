@@ -52,7 +52,6 @@ def edit_all_hotel_guest():
        l_name = input("last name: ")
        reason = input("reason of stay: ")
        request = input("requests: ")
-       print("Please choose payment id")
        loyalty_g = input("loyalty: ")
     except ValueError:
         print("ERROR!!!")
@@ -118,9 +117,6 @@ def edit_all_booking():
         print("Choose guest id")
         show_all_hotel_guest()
         guest = input("Guest id: ")
-        print("Choose payment id")
-        show_all_payment()
-        payment = input("Payment id: ")
         print("Choose room number:")
         show_all_hotel_room()
         rooms = input("Room number: ")
@@ -131,20 +127,17 @@ def edit_all_booking():
         show_all_room_type()
         night_rate = input("Nightly rate: ")
         night = input("Nights: ")
-        total = input("Total: ")
     except ValueError:
         print("ERROR!!!")
     else:
         new_booking = Booking(
             guest_id= guest,
-            payment_id= payment,
             room_no= rooms,
             check_in= c_in,
             check_out= c_out,
             number_of_guests= no_of_guests,
             nightly_rate= night_rate,
             nights= night,
-            total= total
         )
         session.add(new_booking)
         session.commit()
