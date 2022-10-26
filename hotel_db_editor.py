@@ -248,7 +248,7 @@ while True:
         print("t - Add New Hotel Room Type")
         print("b - Add New Booking")
         print("p - Add New Payment")
-        print("t - Add New Transaction")
+        print("m - Add New Transaction")
         print("q - Quit")
         choice = input("please choose: ").casefold()
         if choice == "g":
@@ -261,7 +261,7 @@ while True:
             edit_all_booking()
         elif choice == "p":
             edit_all_payment()
-        elif choice == "t":
+        elif choice == "m":
             edit_all_transaction()
         elif choice == "q":
             break
@@ -276,7 +276,7 @@ while True:
         print("t - View New Hotel Room Type")
         print("b - View New Booking")
         print("p - View New Payment")
-        print("t - View New Transaction")
+        print("m - View New Transaction")
         print("q - Quit")
         choice = input("Please Choose: ").casefold()
         if choice == "g":
@@ -289,7 +289,7 @@ while True:
             show_all_booking()
         elif choice == "p":
             show_all_payment()
-        elif choice == "t":
+        elif choice == "m":
             show_all_transaction()
         elif choice == "q":
             break
