@@ -31,15 +31,13 @@ class Hotel_Room(Base):
     room_no = Column(Integer, primary_key = True)
     room_type = Column("room_type_id", String, ForeignKey("room_type.type_of_room"))
     guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
-    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
 
-    def __init__(self, room_type, guest_id, nightly_rate):
+    def __init__(self, room_type, guest_id):
         self.room_type = room_type
         self.guest_id = guest_id
-        self.nightly_rate = nightly_rate
     
     def __repr__(self):
-        return f"({self.room_no}, {self.room_type}, {self.guest_id}, {self.nightly_rate})"
+        return f"({self.room_no}, {self.room_type}, {self.guest_id})"
 
 
 class Room_Type(Base):
@@ -63,21 +61,17 @@ class Booking(Base):
     room_no = Column("room_no", Integer, ForeignKey("hotel_room.room_no"))
     check_in = Column("check_in", String)
     check_out = Column("check_out", String)
-    number_of_guests = Column("num_of_guests", Integer)
-    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
     nights = Column("nights", Integer)
 
-    def __init__(self, guest_id, room_no, check_in, check_out, number_of_guests, nightly_rate, nights):
+    def __init__(self, guest_id, room_no, check_in, check_out, nights):
         self.guest_id = guest_id
         self.room_no = room_no
         self.check_in = check_in
         self.check_out = check_out
-        self.number_of_guests = number_of_guests
-        self.nightly_rate = nightly_rate
         self.nights = nights
 
     def __repr__(self):
-        return f"({self.id}, {self.guest_id}, {self.room_no}, {self.check_in}, {self.check_out}, {self.number_of_guests}, {self.nightly_rate}, {self.nights})"
+        return f"({self.id}, {self.guest_id}, {self.room_no}, {self.check_in}, {self.check_out}, {self.nights})"
 
 
 class Payment(Base):
@@ -86,39 +80,16 @@ class Payment(Base):
     guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
     payment_method = Column("payment_method", String)
     booking_id = Column("booking_id", Integer, ForeignKey("booking.id"))
-    nightly_rate = Column("nightly_rate", Float, ForeignKey("room_type.nightly_rate"))
     total = Column("total", Float)
 
-    def __init__(self, guest_id, payment_method, booking_id, nightly_rate, total):
+    def __init__(self, guest_id, payment_method, booking_id, total):
         self.guest_id = guest_id
         self.payment_method = payment_method
         self.booking_id = booking_id
-        self.nightly_rate = nightly_rate
         self.total = total
 
     def __repr__(self):
-        return f"({self.id}, {self.guest_id}, {self.payment_method}, {self.booking_id}, {self.nightly_rate}, {self.total})"
-
-
-class Transaction(Base):
-    __tablename__ = "transaction"
-    id = Column(Integer, primary_key = True)
-    guest_id = Column("guest_id", Integer, ForeignKey("main_guest.id"))
-    payment_method = Column("payment_method", String, ForeignKey("payment.payment_method"))
-    total = Column("total", Float, ForeignKey("payment.total"))
-    acc_no = Column("acc_no", String)
-    payment_status = Column("payment_status", String)
-
-    def __init__(self, guest_id, payment_method, total, acc_no, payment_status):
-        self.guest_id = guest_id
-        self.payment_method = payment_method
-        self.total = total
-        self.acc_no = acc_no
-        self.payment_status = payment_status
-
-    def __repr__(self):
-        return f"({self.id}, {self.guest_id}, {self.payment_method}, {self.total}, {self.acc_no}, {self.payment_status}"
-
+        return f"({self.id}, {self.guest_id}, {self.payment_method}, {self.booking_id}, {self.total})"
 
 
 #Base.metadata.drop_all(engine)

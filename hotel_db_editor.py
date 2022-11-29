@@ -1,8 +1,12 @@
-from hotel_database import Hotel_Guest, Hotel_Room, Room_Type, Booking, Payment, Transaction, engine
+from hotel_database import Hotel_Guest, Hotel_Room, Room_Type, Booking, Payment, engine
 from sqlalchemy.orm import sessionmaker
+import sqlite3
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+conn = sqlite3.connect('front_of_house.db')
+cursor = conn.cursor()
 
 ########## VIEW DATA FROM THE DATABASE
 
@@ -35,12 +39,6 @@ def show_all_payment():
     payments = session.query(Payment).all()
     for payment in payments:
         print(payment)
-
-def show_all_transaction():
-    print("---List Of All Transactions---")
-    transactions = session.query(Transaction).all()
-    for transaction in transactions:
-        print(transaction)
     
 ########## ADD DATA TO THE DATABASE
 
@@ -77,17 +75,13 @@ def edit_all_hotel_room():
         print("Choose Guest Id")
         show_all_hotel_guest()
         g_id = input("Guest Id: ")
-        print("Choose Nightly Rate")
-        show_all_room_type()
-        night_rate = input("Nightly rate: ")
 
     except ValueError:
         print("ERROR!!!")
     else:
         new_room = Hotel_Room(
             room_type= type_of_room,
-            guest_id= g_id,
-            nightly_rate= night_rate,
+            guest_id= g_id
         )
         session.add(new_room)
         session.commit()
@@ -122,10 +116,6 @@ def edit_all_booking():
         rooms = input("Room number: ")
         c_in = input("Check in: ")
         c_out = input("Check out: ")
-        no_of_guests = input("Number Of Guests: ")
-        print("Choose nightly rate")
-        show_all_room_type()
-        night_rate = input("Nightly rate: ")
         night = input("Nights: ")
     except ValueError:
         print("ERROR!!!")
@@ -135,8 +125,6 @@ def edit_all_booking():
             room_no= rooms,
             check_in= c_in,
             check_out= c_out,
-            number_of_guests= no_of_guests,
-            nightly_rate= night_rate,
             nights= night,
         )
         session.add(new_booking)
@@ -153,12 +141,6 @@ def edit_all_payment():
         print("Choose booking id:")
         show_all_booking()
         booking = input("Booking id: ")
-        print("Choose nightly rate: ")
-        show_all_room_type()
-        rate = input("Nightly rate: ")
-        print("Choose total")
-        show_all_booking()
-        total = input("Total: ")
     except ValueError:
         print("ERROR!!!")
     else:
@@ -166,38 +148,10 @@ def edit_all_payment():
             guest_id= guest,
             payment_method= payment,
             booking_id= booking,
-            nightly_rate= rate,
-            total= total
         )
         session.add(new_payment)
         session.commit()
         print(f"Payment from {guest} has been added to the database.")
-
-
-def edit_all_transaction():
-    try:
-        print("Choose guest id")
-        show_all_hotel_guest()
-        guest = input("Guest id: ")
-        payment = input("Payment method: ")
-        print("Choose total price")
-        show_all_booking()
-        total = input("Total: ")
-        acc = input("Account number: ")
-        status = input("Payment status: ")
-    except ValueError:
-        print("ERROR!!!")
-    else:
-        new_transaction = Transaction(
-            guest_id= guest,
-            payment_method= payment,
-            total= total,
-            acc_no= acc,
-            payment_status= status
-        )
-        session.add(new_transaction)
-        session.commit()
-        print(f"Transaction of {guest} payment has been added to the database")
 
 
 ########## DELETE DATA FROM DATABASE
@@ -248,7 +202,6 @@ while True:
         print("t - Add New Hotel Room Type")
         print("b - Add New Booking")
         print("p - Add New Payment")
-        print("m - Add New Transaction")
         print("q - Quit")
         choice = input("please choose: ").casefold()
         if choice == "g":
@@ -261,8 +214,6 @@ while True:
             edit_all_booking()
         elif choice == "p":
             edit_all_payment()
-        elif choice == "m":
-            edit_all_transaction()
         elif choice == "q":
             break
         else:
@@ -276,7 +227,6 @@ while True:
         print("t - View New Hotel Room Type")
         print("b - View New Booking")
         print("p - View New Payment")
-        print("m - View New Transaction")
         print("q - Quit")
         choice = input("Please Choose: ").casefold()
         if choice == "g":
@@ -289,8 +239,6 @@ while True:
             show_all_booking()
         elif choice == "p":
             show_all_payment()
-        elif choice == "m":
-            show_all_transaction()
         elif choice == "q":
             break
         else:
@@ -304,7 +252,6 @@ while True:
         print("t - Delete Hotel Room Type")
         print("b - Delete Booking")
         print("p - Delete Payment")
-        print("t - Delete Transaction")
         print("q - Quit")
         choice = input("Please Choose: ")
         if choice == "g":
@@ -317,8 +264,6 @@ while True:
         elif choice == "b":
             pass
         elif choice == "p":
-            pass
-        elif choice == "t":
             pass
         elif choice == "q":
             break
